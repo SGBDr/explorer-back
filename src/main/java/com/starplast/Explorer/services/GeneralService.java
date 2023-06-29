@@ -1,14 +1,15 @@
 package com.starplast.Explorer.services;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import com.starplast.Explorer.models.Directory;
 import com.starplast.Explorer.models.Fichier;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service()
 public class GeneralService {
 	private static int flID = 1;
@@ -16,7 +17,7 @@ public class GeneralService {
 
 	public Directory mapDirectory() {
 		Directory dir = new Directory("Racine","./static/Racine", dirID);
-		dir.addDirectory(new Directory("Root","./static/Racine", dirID));
+
 		showFiles(dir);
 		return dir;
 	}
@@ -24,11 +25,9 @@ public class GeneralService {
 	public void showFiles(Directory d)  {
 		try {
 			File files[] = (new ClassPathResource(d.getUrl()).getFile()).listFiles();
-			for(int i=0;i<files.length;i++){
-				File f=files[i];
-				if (f==null)continue;
+			for(File f: files){
 				if(f.isDirectory()) {
-					Directory dir = new Directory(f.getPath(),f.getName(), dirID);
+					Directory dir = new Directory(f.getName() , d.getUrl() + "/" + f.getName(), dirID);
 					dirID++;
 
 					//faire appelle a recursive sur le dossier
@@ -45,9 +44,9 @@ public class GeneralService {
 				}
 			}
 		}
+
 		catch(Exception e){
-			d.setName(e.getMessage());
-			System.out.println(e.getMessage());
+			log.info(e.getMessage());
 		}
 
 	}
