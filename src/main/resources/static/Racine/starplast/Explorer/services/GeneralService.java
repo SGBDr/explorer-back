@@ -15,7 +15,7 @@ public class GeneralService {
 	private static int dirID = 0;
 
 	public Directory mapDirectory() {
-		Directory dir = new Directory("Racine","./static/Racine", dirID);
+		Directory dir = new Directory("Racine","M:/18_INSTRUCTIONS_PROCEDES_SPECIAUX", dirID);
 		showFiles(dir);
 		return dir;
 	}
