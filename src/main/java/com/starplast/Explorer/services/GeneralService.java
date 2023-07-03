@@ -1,8 +1,11 @@
 package com.starplast.Explorer.services;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import com.starplast.Explorer.models.Directory;
@@ -15,16 +18,16 @@ public class GeneralService {
 	private static int flID = 1;
 	private static int dirID = 0;
 
-	public Directory mapDirectory() {
-		Directory dir = new Directory("Racine","./static/Racine", dirID);
+	public Directory mapDirectory() throws IOException {
+		Directory dir = new Directory("Racine","M:/Explorer", dirID);
 
 		showFiles(dir);
 		return dir;
 	}
 
-	public void showFiles(Directory d)  {
-		try {
-			File files[] = (new ClassPathResource(d.getUrl()).getFile()).listFiles();
+	public void showFiles(Directory d) throws IOException {
+			Path path = Paths.get(d.getUrl());
+			File files[] = (new File(path.toUri())).listFiles();
 			for(File f: files){
 				if(f.isDirectory()) {
 					Directory dir = new Directory(f.getName() , d.getUrl() + "/" + f.getName(), dirID);
@@ -43,11 +46,7 @@ public class GeneralService {
 					d.addFile(fi);
 				}
 			}
-		}
 
-		catch(Exception e){
-			log.info(e.getMessage());
-		}
 
 	}
 }
