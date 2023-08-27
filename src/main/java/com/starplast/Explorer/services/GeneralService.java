@@ -18,7 +18,7 @@ public class GeneralService {
 	private static int dirID = 0;
 
 	public Directory mapDirectory() throws IOException {
-		Directory dir = new Directory("Racine","M:/Explorer", dirID);
+		Directory dir = new Directory("Racine","C:\\Users\\rkengoum\\Downloads\\explorer\\explorer-back\\src\\main\\resources\\doc", dirID);
 
 		showFiles(dir);
 		return dir;
@@ -45,8 +45,6 @@ public class GeneralService {
 					d.addFile(fi);
 				}
 			}
-
-
 	}
 }
 
